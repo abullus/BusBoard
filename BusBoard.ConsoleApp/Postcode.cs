@@ -7,7 +7,8 @@ namespace BusBoard.ConsoleApp
 {
     public class Postcode
     {
-        public Root postcodeLocation;
+        public double longitude;
+        public double latitude;
         // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
 
         public class Result    {
@@ -28,7 +29,9 @@ namespace BusBoard.ConsoleApp
             var request = new RestRequest();
             request.Resource = "/postcodes/" + inputPostcode;
             IRestResponse response = client.Execute(request);
-            postcodeLocation = JsonConvert.DeserializeObject<Root>(response.Content);
+            Root postcodeLocation = JsonConvert.DeserializeObject<Root>(response.Content);
+            longitude = postcodeLocation.result.longitude;
+            latitude = postcodeLocation.result.latitude;
         }
         
     }
