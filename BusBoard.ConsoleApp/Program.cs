@@ -14,30 +14,21 @@ namespace BusBoard.ConsoleApp
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
       Console.WriteLine("Please enter a bus stop code: ");
       string input = Console.ReadLine();
-      List<MyArray> request = GetRequest(input);
-      PrintStationInfo(request);
+      BusStopAPI busStopApi = new BusStopAPI(input);
+      PrintStationInfo(busStopApi.BusStopData);
     }
 
-    private static void PrintStationInfo(List<MyArray> request)
+    private static void PrintStationInfo(List<BusData> request)
     {
       for (int i = 0; i < 5; i++)
       {
-        Console.WriteLine(request[i].lineName);
-        Console.WriteLine(request[i].towards);
-        Console.WriteLine(request[i].timeToLive.AddHours(1));
+        Console.WriteLine(request[i].LineName);
+        Console.WriteLine(request[i].Towards);
+        Console.WriteLine(request[i].TimeToLive.AddHours(1));
         Console.WriteLine();
       }
     }
 
-    private static List<MyArray> GetRequest(string input)
-    {
-      var client = new RestClient();
-      client.BaseUrl = new Uri("https://api.tfl.gov.uk/");
-      var request = new RestRequest();
-      request.Resource = "StopPoint/"+input+"/Arrivals";
-      IRestResponse response = client.Execute(request);
-      List<MyArray> myDeserializedClass = JsonConvert.DeserializeObject<List<MyArray>>(response.Content);
-      return myDeserializedClass;
-    }
+
   }
 }

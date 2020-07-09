@@ -52,7 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyArray.cs" />
+    <Compile Include="BusStopAPI.cs" />
+    <Compile Include="BusData.cs" />
+    <Compile Include="Postcode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
