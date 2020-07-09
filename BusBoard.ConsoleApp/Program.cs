@@ -12,24 +12,28 @@ namespace BusBoard.ConsoleApp
     static void Main(string[] args)
     {
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-      /*
-      Console.WriteLine("Please enter a bus stop code: ");
+
+      Console.WriteLine("Please enter a postcode: ");
+      
       string input = Console.ReadLine();
-      BusStopAPI busStopApi = new BusStopAPI(input);
+
+      Postcode postcode = new Postcode(input);
+      NearbyBusStops nearbyBusStops = new NearbyBusStops(postcode.latitude, postcode.longitude);
+      
+      BusStopAPI busStopApi = new BusStopAPI(nearbyBusStops.BusStopCodes[0].id);
       PrintStationInfo(busStopApi.BusStopData);
-      */
-      Postcode postcode = new Postcode("OX173LU");
-      NearbyBusStops nearbyBusStops = new NearbyBusStops(51.5, -0.1);
-      Console.WriteLine(nearbyBusStops.BusStopCodes);
+      
     }
 
-    private static void PrintStationInfo(List<BusData> request)
+    private static void PrintStationInfo(List<BusData> busDataList)
     {
-      for (int i = 0; i < 5; i++)
+      Console.WriteLine("Nearest bus stop: {0}\n", busDataList[0].StationName);
+      foreach (var bus in busDataList)
       {
-        Console.WriteLine(request[i].LineName);
-        Console.WriteLine(request[i].Towards);
-        Console.WriteLine(request[i].TimeToLive.AddHours(1));
+        Console.WriteLine("Line: "+bus.LineName);
+        Console.WriteLine("Destination: "+bus.DestinationName);
+        Console.WriteLine("Scheduled Arrival: "+ bus.ExpectedArrival.AddHours(1));
+        Console.WriteLine("Expected Arrival: "+bus.TimeToLive.AddHours(1));
         Console.WriteLine();
       }
     }
