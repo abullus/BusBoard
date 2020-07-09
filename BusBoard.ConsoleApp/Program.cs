@@ -20,7 +20,7 @@ namespace BusBoard.ConsoleApp
       */
       Postcode postcode = new Postcode("OX173LU");
       NearbyBusStops nearbyBusStops = new NearbyBusStops(51.5, -0.1);
-      Console.WriteLine(nearbyBusStops.BusStopCodes);
+      Console.WriteLine(nearbyBusStops.BusStopCodes[0].id);
     }
 
     private static void PrintStationInfo(List<BusData> request)
