@@ -12,10 +12,17 @@ namespace BusBoard.ConsoleApp
     static void Main(string[] args)
     {
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+      /*
       Console.WriteLine("Please enter a bus stop code: ");
       string input = Console.ReadLine();
       BusStopAPI busStopApi = new BusStopAPI(input);
       PrintStationInfo(busStopApi.BusStopData);
+      */
+      Postcode postcode = new Postcode("OX173LU");
+      
+      
+      Console.Write(postcode.postcodeLocation.result.latitude);
+      Console.Write(postcode.postcodeLocation.result.longitude);
     }
 
     private static void PrintStationInfo(List<BusData> request)
