@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -29,9 +28,9 @@ namespace BusBoard.ConsoleApp
             var request = new RestRequest();
             request.Resource = "/postcodes/" + inputPostcode;
             IRestResponse response = client.Execute(request);
-            Root postcodeLocation = JsonConvert.DeserializeObject<Root>(response.Content);
-            longitude = postcodeLocation.result.longitude;
-            latitude = postcodeLocation.result.latitude;
+            Root postcodeData = JsonConvert.DeserializeObject<Root>(response.Content);
+            longitude = postcodeData.result.longitude;
+            latitude = postcodeData.result.latitude;
         }
         
     }
