@@ -38,8 +38,16 @@ namespace BusBoard.Api
                     busStopPairDataList.AddRange(data);
                 }
 
-                busStopPairDataList.Sort((x, y) => x.ExpectedArrival.CompareTo(y.ExpectedArrival));
-                UpcomingBusesDict.Add(busStopPair.commonName, busStopPairDataList.Take(5).ToList());
+                if (UpcomingBusesDict.ContainsKey(busStopPair.commonName))
+                {
+                    UpcomingBusesDict[busStopPair.commonName].AddRange(busStopPairDataList);
+                }
+                else
+                {
+                    UpcomingBusesDict.Add(busStopPair.commonName, busStopPairDataList);
+                }
+                UpcomingBusesDict[busStopPair.commonName].Sort((x, y) => x.ExpectedArrival.CompareTo(y.ExpectedArrival));
+                UpcomingBusesDict[busStopPair.commonName] = UpcomingBusesDict[busStopPair.commonName].Take(5).ToList();
             }
 
             return UpcomingBusesDict;

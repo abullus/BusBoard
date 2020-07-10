@@ -28,7 +28,7 @@ namespace BusBoard.ConsoleApp
                     TfLAPI tflapi = new TfLAPI();
                     double[] latLongArray = postcode.GetLatLong(inputPostcode);
                     NearbyBusStops nearbyBusStops = tflapi.NearbyBusStops(latLongArray[0], latLongArray[1]);
-                    Dictionary<string,List<BusData>> upcomingBusesDict = tflapi.UpcomingBuses(nearbyBusStops);
+                    Dictionary<string, List<BusData>> upcomingBusesDict = tflapi.UpcomingBuses(nearbyBusStops);
                     PrintStationInfo(upcomingBusesDict);
                 }
                 catch (Exception ex)
@@ -45,7 +45,7 @@ namespace BusBoard.ConsoleApp
             }
         }
 
-        private static void PrintStationInfo(Dictionary<string,List<BusData>> upcomingBusesDict)
+        private static void PrintStationInfo(Dictionary<string, List<BusData>> upcomingBusesDict)
         {
             int count = 0;
             Console.WriteLine("These are the bus stops within 500m of your postcode");
@@ -60,9 +60,8 @@ namespace BusBoard.ConsoleApp
                     Console.WriteLine("Scheduled Arrival: " + bus.ExpectedArrival.AddHours(1).TimeOfDay);
                     Console.WriteLine("Expected Arrival: " + bus.TimeToLive.AddHours(1).TimeOfDay);
                     Console.WriteLine();
-                } 
+                }
             }
-            
         }
     }
 }
