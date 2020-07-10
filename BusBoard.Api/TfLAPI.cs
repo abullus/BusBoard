@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -37,7 +38,9 @@ namespace BusBoard.Api
             var request = new RestRequest();
             request.Resource = "StopPoint/" + busStopCode + "/Arrivals";
             IRestResponse response = client.Execute(request);
-            return JsonConvert.DeserializeObject<List<BusData>>(response.Content);
+            List<BusData> test =  JsonConvert.DeserializeObject<List<BusData>>(response.Content);
+            test.Sort((x, y) => x.ExpectedArrival.CompareTo(y.ExpectedArrival));
+            return test.Take(5).ToList();
         }
     }
 }

@@ -2,11 +2,15 @@
 @model BusBoard.Web.ViewModels.Error
 @{
   ViewBag.Title = "Error Page";
+    var message = TempData["ErrorMessage"] ?? string.Empty;
 }
 
-<h2>BusInfo</h2>
+<h2>Error in inputted data.</h2>
 
 <div class="row">
-    <p>Error. @Model.Message</p>
+    <p>@TempData["ErrorMessage"]</p>
+    <form action="/Home">
+        <input type="submit" value="Go Home" />
+    </form>
 
 </div>

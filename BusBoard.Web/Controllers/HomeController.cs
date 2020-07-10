@@ -18,7 +18,6 @@ namespace BusBoard.Web.Controllers
     [HttpGet]
     public ActionResult BusInfo(PostcodeSelection selection)
     {
-      ErrorInfo = new Error();
       try
       {
         // Add some properties to the BusInfo view model with the data you want to render on the page.
@@ -28,22 +27,30 @@ namespace BusBoard.Web.Controllers
         TfLAPI tflapi = new TfLAPI();
         double[] latLongArray = postcode.GetLatLong(selection.Postcode);
         List<string> nearbyBusStopCodeList = tflapi.NearbyBusStops(latLongArray[0], latLongArray[1]);
-        List<BusData> upcomingBusesList = tflapi.UpcomingBuses(nearbyBusStopCodeList[0]);
-        var info = new BusInfo(selection.Postcode,upcomingBusesList);
+        List<BusData> upcomingBusesList1 = tflapi.UpcomingBuses(nearbyBusStopCodeList[0]);
+        List<BusData> upcomingBusesList2 = tflapi.UpcomingBuses(nearbyBusStopCodeList[1]);
+        var info = new BusInfo(selection.Postcode,upcomingBusesList1, upcomingBusesList2);
         return View(info);
       }
       catch (Exception ex)
       {
-        ErrorInfo.Message = "works?1111";
-        return Redirect("/Home/ErrorMessage");
+        if (ex.StackTrace.Contains("Postcode.cs"))
+        {
+          TempData["ErrorMessage"] = "Invalid postcode entered.";
+          return Redirect("/Home/ErrorMessage");
+        }
+        else
+        {
+          TempData["ErrorMessage"] = "Entered postcode not in London. ";
+          return Redirect("/Home/ErrorMessage");
+        }
       }
     }
 
     public ActionResult ErrorMessage()
     {
       ViewBag.Message = "When an error occurs.";
-      Error localError = ErrorInfo;
-      return View(localError);
+      return View();
     }
 
     public ActionResult About()
