@@ -9,7 +9,6 @@ namespace BusBoard.Web.Controllers
 {
   public class HomeController : Controller
   {
-    private Error ErrorInfo;
     public ActionResult Index()
     {
       return View();
@@ -25,11 +24,11 @@ namespace BusBoard.Web.Controllers
         // Then modify the view (in Views/Home/BusInfo.cshtml) to render upcoming buses.
         Postcode postcode = new Postcode();
         TfLAPI tflapi = new TfLAPI();
+        
         double[] latLongArray = postcode.GetLatLong(selection.Postcode);
-        List<string> nearbyBusStopCodeList = tflapi.NearbyBusStops(latLongArray[0], latLongArray[1]);
-        List<BusData> upcomingBusesList1 = tflapi.UpcomingBuses(nearbyBusStopCodeList[0]);
-        List<BusData> upcomingBusesList2 = tflapi.UpcomingBuses(nearbyBusStopCodeList[1]);
-        var info = new BusInfo(selection.Postcode,upcomingBusesList1, upcomingBusesList2);
+        NearbyBusStops nearbyBusStops = tflapi.NearbyBusStops(latLongArray[0], latLongArray[1]);
+        Dictionary<string,List<BusData>> upcomingBusesDict = tflapi.UpcomingBuses(nearbyBusStops);
+        var info = new BusInfo(selection.Postcode,upcomingBusesDict);
         return View(info);
       }
       catch (Exception ex)

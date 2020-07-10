@@ -1,4 +1,6 @@
-﻿@model BusBoard.Web.ViewModels.BusInfo
+﻿@using System.Threading
+@using BusBoard.Api
+@model BusBoard.Web.ViewModels.BusInfo
 @{
   ViewBag.Title = "Bus Information";
 }
@@ -25,29 +27,23 @@
     }
     </style>
     <table>
-        <tr>
-            <th>Your nearest bus stop is @Model.UpcomingBusesList1[0].StationName</th>
-            @foreach (var bus in Model.UpcomingBusesList1)
-            {
-                <td>
-                    <p>Line: @bus.LineName</p>
-                    <p>Destination: @bus.DestinationName</p>
-                    <p>Scheduled Arrival: @bus.ExpectedArrival.AddHours(1).TimeOfDay</p>
-                    <p>Expected Arrival: @bus.TimeToLive.AddHours(1).TimeOfDay</p>
-                </td>
-            }
-        </tr>
-        <tr>
-            <th>Your 2nd nearest bus stop is @Model.UpcomingBusesList2[0].StationName</th>
-                        @foreach (var bus in Model.UpcomingBusesList2)
-                            {
-                                <td>
-                                <p>Line: @bus.LineName</p>
-                                <p>Destination: @bus.DestinationName</p>
-                                <p>Scheduled Arrival: @bus.ExpectedArrival.AddHours(1).TimeOfDay</p>
-                                <p>Expected Arrival: @bus.TimeToLive.AddHours(1).TimeOfDay</p>
-                                </td>
-                            }
-        </tr>
+        @{ var count = 0; }
+        @foreach (var busStop in Model.UpcomingBusesDict)
+        {
+
+            <tr>
+                @{ count++; }
+                <th>Bus Stop No. @count is @busStop.Key </th>
+                @foreach (var bus in busStop.Value)
+                {
+                    <td>
+                        <p>Line: @bus.LineName</p>
+                        <p>Destination: @bus.DestinationName</p>
+                        <p>Scheduled: @bus.ExpectedArrival.AddHours(1).TimeOfDay</p>
+                        <p>Expected: @bus.TimeToLive.AddHours(1).TimeOfDay</p>
+                    </td>
+                }
+            </tr>
+        }
     </table>
 </div>

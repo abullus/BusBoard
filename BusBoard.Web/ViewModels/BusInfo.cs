@@ -5,15 +5,13 @@ namespace BusBoard.Web.ViewModels
 {
   public class BusInfo
   {
-    public BusInfo(string postCode,List<BusData> upcomingBusesList1, List<BusData> upcomingBusesList2)
+    public BusInfo(string postCode,Dictionary<string,List<BusData>> upcomingBusesDict)
     {
       PostCode = postCode;
-      UpcomingBusesList1 = upcomingBusesList1;
-      UpcomingBusesList2 = upcomingBusesList2;
+      UpcomingBusesDict = upcomingBusesDict;
     }
 
-    public List<BusData> UpcomingBusesList1;
-    public List<BusData> UpcomingBusesList2;
+    public Dictionary<string,List<BusData>> UpcomingBusesDict;
     public string PostCode { get; set; }
     
 

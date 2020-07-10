@@ -18,7 +18,6 @@ namespace BusBoard.Api
             public Result result;
         }
 
-
         public double[] GetLatLong(string inputPostcode)
         {
             var client = new RestClient();

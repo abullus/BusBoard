@@ -27,9 +27,9 @@ namespace BusBoard.ConsoleApp
                     Postcode postcode = new Postcode();
                     TfLAPI tflapi = new TfLAPI();
                     double[] latLongArray = postcode.GetLatLong(inputPostcode);
-                    List<string> nearbyBusStopCodesList = tflapi.NearbyBusStops(latLongArray[0], latLongArray[1]);
-                    List<BusData> upcomingBusesList = tflapi.UpcomingBuses(nearbyBusStopCodesList[0]);
-                    PrintStationInfo(upcomingBusesList);
+                    NearbyBusStops nearbyBusStops = tflapi.NearbyBusStops(latLongArray[0], latLongArray[1]);
+                    Dictionary<string,List<BusData>> upcomingBusesDict = tflapi.UpcomingBuses(nearbyBusStops);
+                    PrintStationInfo(upcomingBusesDict);
                 }
                 catch (Exception ex)
                 {
@@ -45,17 +45,24 @@ namespace BusBoard.ConsoleApp
             }
         }
 
-        private static void PrintStationInfo(List<BusData> busDataList)
+        private static void PrintStationInfo(Dictionary<string,List<BusData>> upcomingBusesDict)
         {
-            Console.WriteLine("Nearest bus stop: {0}\n", busDataList[0].StationName);
-            foreach (var bus in busDataList)
+            int count = 0;
+            Console.WriteLine("These are the bus stops within 500m of your postcode");
+            foreach (var busStop in upcomingBusesDict)
             {
-                Console.WriteLine("Line: " + bus.LineName);
-                Console.WriteLine("Destination: " + bus.DestinationName);
-                Console.WriteLine("Scheduled Arrival: " + bus.ExpectedArrival.AddHours(1));
-                Console.WriteLine("Expected Arrival: " + bus.TimeToLive.AddHours(1));
-                Console.WriteLine();
+                count++;
+                Console.WriteLine($"Bus Stop No. {count}: {busStop.Key}\n");
+                foreach (var bus in busStop.Value)
+                {
+                    Console.WriteLine("Line: " + bus.LineName);
+                    Console.WriteLine("Destination: " + bus.DestinationName);
+                    Console.WriteLine("Scheduled Arrival: " + bus.ExpectedArrival.AddHours(1).TimeOfDay);
+                    Console.WriteLine("Expected Arrival: " + bus.TimeToLive.AddHours(1).TimeOfDay);
+                    Console.WriteLine();
+                } 
             }
+            
         }
     }
 }
