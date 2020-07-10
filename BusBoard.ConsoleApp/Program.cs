@@ -22,7 +22,7 @@ namespace BusBoard.ConsoleApp
       
       BusStopAPI busStopApi = new BusStopAPI(nearbyBusStops.BusStopCodes[0].id);
       PrintStationInfo(busStopApi.BusStopData);
-      
+
     }
 
     private static void PrintStationInfo(List<BusData> busDataList)

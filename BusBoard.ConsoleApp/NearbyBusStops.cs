@@ -17,9 +17,7 @@ namespace BusBoard.ConsoleApp
             request.Resource = "StopPoint?stopTypes=NaptanPublicBusCoachTram&radius=500&lat="
                                + latitude+ "&lon="+longitude;
             IRestResponse response = client.Execute(request);
-            Root busStopData = JsonConvert.DeserializeObject<Root>(response.Content);
-            BusStopCodes = busStopData.stopPoints;
-        }
+
         
         public class StopPoint    {
             public string id;
