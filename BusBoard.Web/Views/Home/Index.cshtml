@@ -4,7 +4,7 @@
 }
 
 <div class="jumbotron">
-    <h1>BusBoard</h1>
+    <h1>Bus Times Finder</h1>
     <p class="lead">For all your bus info needs. Enter a postcode below and click enter to see bus times for that location.</p>
 </div>
 
@@ -13,7 +13,7 @@
         @using (Html.BeginForm("BusInfo", "Home", FormMethod.Get))
         {
         <fieldset>
-            <legend>Post Code:</legend>
+            <legend>Type your postcode:</legend>
             @Html.TextBoxFor(m => m.Postcode)
 
             <input type="submit" value="Get Bus Info" />
