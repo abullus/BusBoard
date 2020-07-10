@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
-using Newtonsoft.Json;
-using RestSharp;
 
 namespace BusBoard.ConsoleApp
 {
@@ -47,7 +44,7 @@ namespace BusBoard.ConsoleApp
 
     }
 
-    private static void PrintStationInfo(List<BusData> busDataList)
+    private static void PrintStationInfo(List<UpcomingBuses.BusData> busDataList)
     {
       Console.WriteLine("Nearest bus stop: {0}\n", busDataList[0].StationName);
       foreach (var bus in busDataList)
