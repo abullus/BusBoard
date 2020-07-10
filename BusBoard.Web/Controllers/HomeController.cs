@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using BusBoard.Api;
 using BusBoard.Web.Models;
@@ -20,13 +21,15 @@ namespace BusBoard.Web.Controllers
       ErrorInfo = new Error();
       try
       {
-        Postcode postcode = new Postcode(selection.Postcode);
-        NearbyBusStops nearbyBusStops = new NearbyBusStops(postcode.latitude, postcode.longitude);
-        UpcomingBuses busStopApi = new UpcomingBuses(nearbyBusStops.BusStopCodes[0].id);
         // Add some properties to the BusInfo view model with the data you want to render on the page.
         // Write code here to populate the view model with info from the APIs.
         // Then modify the view (in Views/Home/BusInfo.cshtml) to render upcoming buses.
-        var info = new BusInfo(selection.Postcode, busStopApi);
+        Postcode postcode = new Postcode();
+        TfLAPI tflapi = new TfLAPI();
+        double[] latLongArray = postcode.GetLatLong(selection.Postcode);
+        List<string> nearbyBusStopCodeList = tflapi.NearbyBusStops(latLongArray[0], latLongArray[1]);
+        List<BusData> upcomingBusesList = tflapi.UpcomingBuses(nearbyBusStopCodeList[0]);
+        var info = new BusInfo(selection.Postcode,upcomingBusesList);
         return View(info);
       }
       catch (Exception ex)

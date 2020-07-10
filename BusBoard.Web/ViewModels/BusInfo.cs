@@ -1,16 +1,17 @@
-﻿using BusBoard.Api;
+﻿using System.Collections.Generic;
+using BusBoard.Api;
 
 namespace BusBoard.Web.ViewModels
 {
   public class BusInfo
   {
-    public BusInfo(string postCode,UpcomingBuses busStopApi)
+    public BusInfo(string postCode,List<BusData> upcomingBusesList)
     {
       PostCode = postCode;
-      UpcomingBuses = busStopApi;
+      UpcomingBusesList = upcomingBusesList;
     }
 
-    public UpcomingBuses UpcomingBuses;
+    public List<BusData> UpcomingBusesList;
     public string PostCode { get; set; }
     
 
