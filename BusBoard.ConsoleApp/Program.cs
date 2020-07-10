@@ -13,15 +13,37 @@ namespace BusBoard.ConsoleApp
     {
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-      Console.WriteLine("Please enter a postcode: ");
-      
-      string input = Console.ReadLine();
+      while (true)
+      {
+        Console.WriteLine("Please enter a postcode: (Or Exit)");
 
-      Postcode postcode = new Postcode(input);
-      NearbyBusStops nearbyBusStops = new NearbyBusStops(postcode.latitude, postcode.longitude);
-      
-      BusStopAPI busStopApi = new BusStopAPI(nearbyBusStops.BusStopCodes[0].id);
-      PrintStationInfo(busStopApi.BusStopData);
+        string inputPostcode = Console.ReadLine();
+
+        if (inputPostcode == "Exit")
+        {
+          break;
+        }
+
+        try
+        {
+          Postcode postcode = new Postcode(inputPostcode);
+          NearbyBusStops nearbyBusStops = new NearbyBusStops(postcode.latitude, postcode.longitude);
+          UpcomingBuses busStopApi = new UpcomingBuses(nearbyBusStops.BusStopCodes[0].id);
+          PrintStationInfo(busStopApi.BusStopData);
+        }
+        catch (Exception ex)
+        {
+          if (ex.StackTrace.Contains("Postcode.cs"))
+          {
+            Console.WriteLine("Postcode invalid.");
+          }
+          else
+          {
+            Console.WriteLine("Postcode error: not in London.");
+          }
+          
+        }
+      }
 
     }
 
