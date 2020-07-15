@@ -3,6 +3,7 @@
   public class PostcodeSelection
   {
     public string Postcode { get; set; }
+    public double radius { get; set; }
 
   }
 }

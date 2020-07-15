@@ -12,10 +12,11 @@
       font-family: arial, sans-serif;
       border-collapse: collapse;
       width: 100%;
+      
     }
     
     td, th {
-      border: 1px solid #c0daff;
+      border: 1px solid #3071a9;
       text-align: left;
       padding: 8px;
     }
@@ -25,16 +26,24 @@
     }
     </style>
     <table>
-        @{ var count = 0; }
+        <col style="width: 25%">
+        <col style="width: 15%">
+        <col style="width: 15%">
+        <col style="width: 15%">
+        <col style="width: 15%">
+        <col style="width: 15%">
+        @{ var countBusStop = 0; }
         @foreach (var busStop in Model.UpcomingBusesDict)
         {
             <tr>
-                @{ count++; }
-                <th>Bus Stop No. @count is @busStop.Key </th>
+                @{ countBusStop++; }
+                <th>Bus Stop No. @countBusStop is @busStop.Key </th>
                 @if (busStop.Value.FirstOrDefault() != null)
                 {
+                    int countBuses = 0;
                     foreach (var bus in busStop.Value)
                     {
+                        countBuses++;
                         <td>
                             <p>Line: @bus.LineName</p>
                             <p>To: @bus.DestinationName</p>
@@ -42,10 +51,14 @@
                             <p>Expected: @bus.TimeToLive.AddHours(1).TimeOfDay</p>
                         </td>
                     }
+                    if (countBuses < 5)
+                    {
+                        <td colspan=@(5 - countBuses) style="text-align: center">No more upcoming buses</td>
+                    }
                 }
                 else
                 {
-                    <td colspan="5"> There are no upcoming bus departures at this stop</td>
+                    <td colspan="5" style="text-align: center"> There are no upcoming bus departures at this stop</td>
                 }
 
             </tr>

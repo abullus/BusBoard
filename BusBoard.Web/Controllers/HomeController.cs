@@ -26,6 +26,7 @@ namespace BusBoard.Web.Controllers
                 TfLAPI tflapi = new TfLAPI();
 
                 double[] latLongArray = postcode.GetLatLong(selection.Postcode);
+
                 NearbyBusStops nearbyBusStops = tflapi.NearbyBusStops(latLongArray[0], latLongArray[1]);
                 Dictionary<string, List<BusData>> upcomingBusesDict = tflapi.UpcomingBuses(nearbyBusStops);
                 var info = new BusInfo(selection.Postcode, upcomingBusesDict);
